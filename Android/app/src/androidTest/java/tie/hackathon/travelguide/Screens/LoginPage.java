@@ -1,55 +1,45 @@
 package tie.hackathon.travelguide.Screens;
 
 import tie.hackathon.travelguide.R;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import tie.hackathon.travelguide.Tests.Helpers;
 
 /**
  * Created by valentin.boca on 2/22/2018.
  */
 
 public class LoginPage {
-    public static void tapSignUp() throws Exception {
-        onView(withId(R.id.ok_signup)).perform(click());
+    public static void tapSignUpButton() throws Exception {
+        Helpers.tapButtonWithId(R.id.ok_signup);
     }
 
-    public static void tapLogIn() throws Exception {
-        onView(withId(R.id.login)).perform(click());
+    public static void tapLogInString() throws Exception {
+        Helpers.tapButtonWithId(R.id.login);
     }
 
     public static void tapLogInButton() throws Exception {
-        onView(withId(R.id.ok_login)).perform(click());
+        Helpers.tapButtonWithId(R.id.ok_login);
     }
 
     public static void insertNameSignUp(String text) throws Exception {
-        onView(withId(R.id.input_name_signup)).perform(click());
-        onView(withId(R.id.input_name_signup)).perform(typeText(text));
+        Helpers.typeTextOnFieldWithId(R.id.input_name_signup, text);
     }
 
     public static void insertPhoneNumberSignUp(String text) throws Exception {
-        onView(withId(R.id.input_num_signup)).perform(click());
-        onView(withId(R.id.input_num_signup)).perform(typeText(text));
-
+        Helpers.typeTextOnFieldWithId(R.id.input_num_signup, text);
     }
 
     public static void insertPhoneNumberLogIn(String text) throws Exception {
-        onView(withId(R.id.input_num_login)).perform(click());
-        onView(withId(R.id.input_num_login)).perform(typeText(text));
+        Helpers.typeTextOnFieldWithId(R.id.input_num_login, text);
 
     }
 
     public static void insertPasswordSignUp(String text) throws Exception {
-        onView(withId(R.id.input_pass_signup)).perform(click());
-        onView(withId(R.id.input_pass_signup)).perform(typeText(text));
+        Helpers.typeTextOnFieldWithId(R.id.input_pass_signup, text);
 
     }
 
     public static void insertPasswordLogIn(String text) throws Exception {
-        onView(withId(R.id.input_pass_login)).perform(click());
-        onView(withId(R.id.input_pass_login)).perform(typeText(text));
+        Helpers.typeTextOnFieldWithId(R.id.input_pass_login, text);
 
     }
 
@@ -62,5 +52,9 @@ public class LoginPage {
     public static void logIn(String number, String password) throws Exception{
         LoginPage.insertPhoneNumberLogIn(number);
         LoginPage.insertPasswordLogIn(password);
+    }
+
+    public static boolean isLoginPageDispalyed(int rid) throws Exception{
+        return Helpers.isObjectWithIdDisplayed(rid);
     }
 }

@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tie.hackathon.travelguide.Constants.Strings;
+import tie.hackathon.travelguide.Constants.Timeouts;
 import tie.hackathon.travelguide.R;
 import tie.hackathon.travelguide.Screens.LoginPage;
 import tie.hackathon.travelguide.Screens.MainPage;
@@ -14,19 +15,20 @@ import tie.hackathon.travelguide.Screens.MainPage;
 
 public class DemoTest extends EspressoTestBase {
 
-    @Test
+    @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfSignUpIsSuccessful() throws Exception {
-        LoginPage.signUp("user", "0754211009", "test1234");
-        LoginPage.tapSignUp();
+        LoginPage.signUp(Strings.USER, Strings.PHONE_NO, Strings.PASSWORD);
+        LoginPage.tapSignUpButton();
+        Assert.assertTrue(Strings.MAIN_PAGE_NOT_DISPLAYED, MainPage.isScreenDisplayed(R.id.cityname));
         MainPage.signOut();
-        Assert.assertTrue("The login page is not displayed", Helpers.isIdDisplayed(R.id.ok_signup));
+        Assert.assertTrue(Strings.LOGIN_PAGE_NOT_DISPLAYED, LoginPage.isLoginPageDispalyed(R.id.ok_signup));
     }
 
-    @Test
+    @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfLogInIsSuccessful() throws Exception {
-        LoginPage.tapLogIn();
-        LoginPage.logIn("0754211009", "test1234");
+        LoginPage.tapLogInString();
+        LoginPage.logIn(Strings.PHONE_NO, Strings.PASSWORD);
         LoginPage.tapLogInButton();
-        Assert.assertTrue("The main page is not displayed", Helpers.isStringDisplayed(Strings.TRAVEL_MATE));
+        Assert.assertTrue(Strings.MAIN_PAGE_NOT_DISPLAYED, MainPage.isScreenDisplayed(R.id.cityname));
     }
 }

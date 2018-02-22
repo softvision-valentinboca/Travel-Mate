@@ -1,12 +1,10 @@
 package tie.hackathon.travelguide.Tests;
 
 import android.os.SystemClock;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.AppNotIdleException;
 import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.Root;
-import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;
 import android.view.View;
@@ -24,6 +22,7 @@ import tie.hackathon.travelguide.Constants.Time;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
@@ -65,21 +64,20 @@ public class Helpers extends EspressoTestBase {
     }
 
     public static void pressBack() throws Exception {
-        UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
-        mDevice.pressBack();
+        device.pressBack();
     }
 
     public static UiObject getUiObjectByResourceId(String nameSpace, String resourceId) throws Exception {
         return device.findObject(new UiSelector().resourceId(nameSpace + ":id/" + resourceId));
     }
 
-    public static boolean isStringDisplayed(String text) throws Exception {
+    public static boolean isObjectWithTextDisplyed(String text) throws Exception {
         return Helpers.checkIfUIObjectIsVisible(allOf(withText(text), isCompletelyDisplayed()), 3);
     }
 
-    public static boolean isIdDisplayed(int text) throws Exception {
-        return Helpers.checkIfUIObjectIsVisible(allOf(withId(text), isCompletelyDisplayed()), 3);
+    public static boolean isObjectWithIdDisplayed(int rid) throws Exception {
+        return Helpers.checkIfUIObjectIsVisible(allOf(withId(rid), isCompletelyDisplayed()), 3);
     }
 
     public static Matcher<View> mediaItemPosition(final Matcher<View> parentMatcher, final int childPosition) {
@@ -127,8 +125,19 @@ public class Helpers extends EspressoTestBase {
         return found;
     }
 
-    public static void clickOnContentDesc(int text) throws Exception {
+    public static void clickOnObjectWithContentDesc(int text) throws Exception {
         onView(withContentDescription(text)).perform(click());
     }
 
+    public static void clickOnItemWithIdAtPosition(int rid, int position) throws Exception {
+        onView(mediaItemPosition(withId(rid), position)).perform(click());
+    }
+
+    public static void typeTextOnFieldWithId(int rid, String text) throws Exception {
+        onView(withId(rid)).perform(typeText(text));
+    }
+
+    public static void tapButtonWithId(int rid) throws Exception{
+        onView(withId(rid)).perform(click());
+    }
 }
