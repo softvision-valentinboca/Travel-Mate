@@ -1,15 +1,12 @@
 package tie.hackathon.travelguide.Tests;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
+import tie.hackathon.travelguide.Constants.Strings;
+import tie.hackathon.travelguide.Constants.Timeouts;
+import tie.hackathon.travelguide.Screens.LoginPage;
+import tie.hackathon.travelguide.Screens.MainPage;
 
 /**
  * Created by valentin.boca on 2/21/2018.
@@ -17,13 +14,22 @@ import static org.hamcrest.Matchers.allOf;
 
 public class DemoTest extends EspressoTestBase {
 
-    @Test
-    public void testDemo() throws Exception {
-        onView(withContentDescription("SIGNUP")).perform(click());
+    @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
+    public void testIfSignUpIsSuccessful() throws Exception {
+        LoginPage.waitFor();
+        LoginPage.signUp(Strings.USER, Strings.PHONE_NO, Strings.PASSWORD);
+        LoginPage.tapSignUpButton();
+        Assert.assertTrue(Strings.MAIN_PAGE_NOT_DISPLAYED, MainPage.isMainScreenDisplayed());
+        MainPage.signOut();
+        Assert.assertTrue(Strings.LOGIN_PAGE_NOT_DISPLAYED, LoginPage.isLoginPageDispalyed());
     }
 
-    @Test
-    public void testDemo2() throws Exception {
-        onView(allOf(withText("Travel Mate"), hasSibling(withContentDescription("Travel Guide")))).check(matches(isDisplayed()));
+    @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
+    public void testIfLogInIsSuccessful() throws Exception {
+        LoginPage.waitFor();
+        LoginPage.tapLogInString();
+        LoginPage.logIn(Strings.PHONE_NO, Strings.PASSWORD);
+        LoginPage.tapLogInButton();
+        Assert.assertTrue(Strings.MAIN_PAGE_NOT_DISPLAYED, MainPage.isMainScreenDisplayed());
     }
 }
