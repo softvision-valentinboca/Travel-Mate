@@ -11,4 +11,5 @@ public class Strings {
     public static final String USER = "user";
     public static final String MAIN_PAGE_NOT_DISPLAYED = "The main page is not displayed";
     public static final String LOGIN_PAGE_NOT_DISPLAYED = "The login page is not displayed";
+    public static final String CITY_MAIN_PAGE = "Delhi";
 }

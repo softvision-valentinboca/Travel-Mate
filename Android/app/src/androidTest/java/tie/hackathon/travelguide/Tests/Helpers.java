@@ -85,11 +85,15 @@ public class Helpers extends EspressoTestBase {
         return Helpers.checkIfUIObjectIsVisible(allOf(withText(text), isCompletelyDisplayed()), 3);
     }
 
+    public static boolean isObjectWithTextAndIdDisplyed(String text, int rid) throws Exception {
+        return Helpers.checkIfUIObjectIsVisible(allOf(withText(text), withId(rid), isCompletelyDisplayed()), 3);
+    }
+
     public static boolean isObjectWithIdDisplayed(int rid) throws Exception {
         return Helpers.checkIfUIObjectIsVisible(allOf(withId(rid), isCompletelyDisplayed()), 3);
     }
 
-    public static Matcher<View> mediaItemPosition(final Matcher<View> parentMatcher, final int childPosition) {
+    public static Matcher<View> ObjectPosition(final Matcher<View> parentMatcher, final int childPosition) {
         return new TypeSafeMatcher<View>() {
             @Override
             public void describeTo(Description description) {
@@ -108,8 +112,8 @@ public class Helpers extends EspressoTestBase {
         };
     }
 
-    public static void clickAMediaItemFromTheList(int rid, int position) throws Exception {
-        onView(mediaItemPosition(withId(rid), position)).perform(click());
+    public static void clickAnObjectFromTheList(int rid, int position) throws Exception {
+        onView(ObjectPosition(withId(rid), position)).perform(click());
     }
 
     public static boolean clickOnAView(int rid2, Matcher<View> matcher, int position) {
@@ -139,7 +143,7 @@ public class Helpers extends EspressoTestBase {
     }
 
     public static void clickOnItemWithIdAtPosition(int rid, int position) throws Exception {
-        onView(mediaItemPosition(withId(rid), position)).perform(click());
+        onView(ObjectPosition(withId(rid), position)).perform(click());
     }
 
     public static void typeTextOnFieldWithId(int rid, String text) throws Exception {
@@ -192,5 +196,9 @@ public class Helpers extends EspressoTestBase {
 
     public static void waitFor(int rid, int time) throws Exception {
         onView(isRoot()).perform(waitId(rid, TimeUnit.SECONDS.toMillis(time)));
+    }
+
+    public static void clickASpecificObject(String text, int rid) throws Exception {
+        onView(allOf(withText(text), withId(rid))).perform(click());
     }
 }

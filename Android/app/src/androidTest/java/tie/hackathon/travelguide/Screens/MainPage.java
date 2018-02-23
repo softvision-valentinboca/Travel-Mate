@@ -19,12 +19,27 @@ public class MainPage {
         Helpers.clickOnAView(R.id.nav_view, withId(R.id.design_navigation_view), 8);
     }
 
-    public static boolean isMainScreenDisplayed() throws Exception{
-        MainPage.waitFor();
+    public static boolean isSearchACityDisplayed() throws Exception{
         return Helpers.isObjectWithIdDisplayed(R.id.cityname);
     }
 
-    public static void waitFor() throws Exception{
-        Helpers.waitFor(R.id.cityname, 5);
+    public static void waitForTheMainScreenToBeDisplayed() throws Exception{
+        if (!isSearchACityDisplayed()) {
+                throw new Exception("The main screen is not displayed");
+            }
+    }
+
+    public static boolean isACityFromMainPageDisplayed(String text, int rid) throws Exception{
+        return Helpers.isObjectWithTextAndIdDisplyed(text, rid);
+    }
+
+    public static void waitForCityToBeDisplayed(String text, int rid) throws Exception{
+        if (!isACityFromMainPageDisplayed(text, rid)) {
+            throw new Exception("The city is not displayed");
+        }
+    }
+
+    public static void clickACityFromMainPage(String text, int rid) throws Exception{
+        Helpers.clickASpecificObject(text, rid);
     }
 }

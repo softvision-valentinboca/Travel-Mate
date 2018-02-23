@@ -51,12 +51,13 @@ public class LoginPage {
         LoginPage.insertPasswordLogIn(password);
     }
 
-    public static boolean isLoginPageDispalyed() throws Exception{
-        LoginPage.waitFor();
+    public static boolean isSignUpButtonDispalyed() throws Exception{
         return Helpers.isObjectWithIdDisplayed(R.id.ok_signup);
     }
 
-    public static void waitFor() throws Exception{
-        Helpers.waitFor(R.id.ok_signup, 5);
+    public static void waitForTheLoginPageToBeDisplayed() throws Exception{
+        if (!isSignUpButtonDispalyed()) {
+            throw new Exception("The login page is not displayed");
+        }
     }
 }
