@@ -1,5 +1,6 @@
 package tie.hackathon.travelguide.Screens;
 
+import tie.hackathon.travelguide.Constants.Integers;
 import tie.hackathon.travelguide.Constants.Strings;
 import tie.hackathon.travelguide.R;
 import tie.hackathon.travelguide.Tests.Helpers;
@@ -11,16 +12,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 
 public class MainPage {
-    public static void openNavDrawer() throws Exception {
-        Helpers.clickOnObjectWithContentDesc(R.string.navigation_drawer_open);
-    }
-
-    public static void signOut() throws Exception {
-        Helpers.clickOnObjectWithContentDesc(R.string.navigation_drawer_open);
-        Helpers.clickOnAView(R.id.nav_view, withId(R.id.design_navigation_view), 8);
-        LoginPage.waitForTheLoginPageToBeDisplayed();
-    }
-
     public static boolean isSearchACityDisplayed() throws Exception {
         return Helpers.isObjectWithIdDisplayed(R.id.cityname);
     }
@@ -29,6 +20,16 @@ public class MainPage {
         if(!isSearchACityDisplayed()) {
             throw new Exception("The main screen is not displayed");
         }
+    }
+
+    public static void openNavDrawer() throws Exception {
+        Helpers.clickOnObjectWithContentDesc(R.string.navigation_drawer_open);
+    }
+
+    public static void signOut() throws Exception {
+        Helpers.clickOnObjectWithContentDesc(R.string.navigation_drawer_open);
+        Helpers.clickOnAView(R.id.nav_view, withId(R.id.design_navigation_view), 8);
+        LoginPage.waitForTheLoginPageToBeDisplayed();
     }
 
     public static boolean isACityFromMainPageDisplayed(String text, int rid) throws Exception {
@@ -63,11 +64,35 @@ public class MainPage {
         Helpers.swipeRightASpecificObjectWithTextAndId(text, rid);
     }
 
-    public static void login() throws Exception {
+    public static void loginEndToEnd(String phone, String password) throws Exception {
         LoginPage.waitForTheLoginPageToBeDisplayed();
         LoginPage.tapLogInString();
-        LoginPage.logIn(Strings.PHONE_NO, Strings.PASSWORD);
+        LoginPage.logInWithNumberAndPassword(phone, password);
         LoginPage.tapLogInButton();
         MainPage.waitForTheMainScreenToBeDisplayed();
+    }
+
+    public static void loginWaitForAndClickCity() throws Exception {
+        MainPage.loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
+        MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.clickACityFromMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        City.waitForCityInfoToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
+    }
+
+    public static void swipeCity() throws Exception{
+        MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.swipeLeftACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+    }
+
+    public static void swipeNavigateAndWaitGoogleMaps() throws Exception{
+        MainPage.swipeLeftACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MoreCityDetails.tapViewOnMapString();
+        MoreCityDetails.waitForGoogleMapsPageToBeDisplayed();
+        Helpers.navigateBackToApp();
+        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
     }
 }

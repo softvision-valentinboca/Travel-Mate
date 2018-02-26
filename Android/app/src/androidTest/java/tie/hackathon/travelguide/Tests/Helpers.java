@@ -77,11 +77,6 @@ public class Helpers extends EspressoTestBase {
         return isVisible;
     }
 
-    public static void pressBack() throws Exception {
-
-        device.pressBack();
-    }
-
     public static UiObject getUiObjectByText(String text) throws Exception {
         return device.findObject(new UiSelector().text(text));
     }
@@ -102,7 +97,7 @@ public class Helpers extends EspressoTestBase {
         return Helpers.checkIfUIObjectIsVisible(allOf(withId(rid), isCompletelyDisplayed()), 3);
     }
 
-    public static Matcher<View> ObjectPosition(final Matcher<View> parentMatcher, final int childPosition) {
+    public static Matcher<View> objectPositionOnAListView(final Matcher<View> parentMatcher, final int childPosition) {
         return new TypeSafeMatcher<View>() {
             @Override
             public void describeTo(Description description) {
@@ -119,10 +114,6 @@ public class Helpers extends EspressoTestBase {
                 return parentMatcher.matches(view.getParent()) && group.getChildAt(childPosition).equals(view);
             }
         };
-    }
-
-    public static void clickAnObjectFromTheList(int rid, int position) throws Exception {
-        onView(ObjectPosition(withId(rid), position)).perform(click());
     }
 
     public static boolean clickOnAView(int rid2, Matcher<View> matcher, int position) {
@@ -151,16 +142,12 @@ public class Helpers extends EspressoTestBase {
         onView(withContentDescription(text)).perform(click());
     }
 
-    public static void clickOnItemWithIdAtPosition(int rid, int position) throws Exception {
-        onView(ObjectPosition(withId(rid), position)).perform(click());
+    public static void clickOnObjectWithIdAtPosition(int rid, int position) throws Exception {
+        onView(objectPositionOnAListView(withId(rid), position)).perform(click());
     }
 
     public static void typeTextOnFieldWithId(int rid, String text) throws Exception {
         onView(withId(rid)).perform(typeText(text));
-    }
-
-    public static void tapButtonWithId(int rid) throws Exception {
-        onView(withId(rid)).perform(click());
     }
 
     //wait for a determined period of time
@@ -253,8 +240,8 @@ public class Helpers extends EspressoTestBase {
     }
 
     public static void navigateBackToApp() throws Exception {
-        UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        mDevice.pressRecentApps();
+        UiDevice Device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        Device.pressRecentApps();
         UiObject clickTravelMate = Helpers.getUiObjectByText(Strings.APP_NAME);
         clickTravelMate.click();
     }

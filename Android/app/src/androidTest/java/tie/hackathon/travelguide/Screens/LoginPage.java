@@ -8,16 +8,26 @@ import tie.hackathon.travelguide.Tests.Helpers;
  */
 
 public class LoginPage {
+    public static boolean isSignUpButtonDispalyed() throws Exception{
+        return Helpers.isObjectWithIdDisplayed(R.id.ok_signup);
+    }
+
+    public static void waitForTheLoginPageToBeDisplayed() throws Exception{
+        if (!isSignUpButtonDispalyed()) {
+            throw new Exception("The login page is not displayed");
+        }
+    }
+
     public static void tapSignUpButton() throws Exception {
-        Helpers.tapButtonWithId(R.id.ok_signup);
+        Helpers.clickASpecificObjectWithId(R.id.ok_signup);
     }
 
     public static void tapLogInString() throws Exception {
-        Helpers.tapButtonWithId(R.id.login);
+        Helpers.clickASpecificObjectWithId(R.id.login);
     }
 
     public static void tapLogInButton() throws Exception {
-        Helpers.tapButtonWithId(R.id.ok_login);
+        Helpers.clickASpecificObjectWithId(R.id.ok_login);
     }
 
     public static void insertNameSignUp(String text) throws Exception {
@@ -46,18 +56,8 @@ public class LoginPage {
         LoginPage.insertPasswordSignUp(password);
     }
 
-    public static void logIn(String number, String password) throws Exception{
+    public static void logInWithNumberAndPassword(String number, String password) throws Exception{
         LoginPage.insertPhoneNumberLogIn(number);
         LoginPage.insertPasswordLogIn(password);
-    }
-
-    public static boolean isSignUpButtonDispalyed() throws Exception{
-        return Helpers.isObjectWithIdDisplayed(R.id.ok_signup);
-    }
-
-    public static void waitForTheLoginPageToBeDisplayed() throws Exception{
-        if (!isSignUpButtonDispalyed()) {
-            throw new Exception("The login page is not displayed");
-        }
     }
 }

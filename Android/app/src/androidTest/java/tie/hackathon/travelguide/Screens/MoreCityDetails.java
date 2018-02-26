@@ -9,10 +9,6 @@ import tie.hackathon.travelguide.Tests.Helpers;
  */
 
 public class MoreCityDetails {
-    public static void tapViewOnMapString() throws Exception {
-        Helpers.clickOnTheFirstObjectInTheListWhenAmbiguous(Strings.VIEW_ON_MAP, R.id.interest_2);
-    }
-
     public static boolean isGoogleMapPageDisplayed() throws Exception {
         return Helpers.getUiObjectByResourceId("com.google.android.apps.maps", "home_bottom_sheet").exists();
     }
@@ -21,5 +17,9 @@ public class MoreCityDetails {
         if(!isGoogleMapPageDisplayed()) {
             throw new Exception("The Google Maps is not displayed");
         }
+    }
+
+    public static void tapViewOnMapString() throws Exception {
+        Helpers.clickOnTheFirstObjectInTheListWhenAmbiguous(Strings.VIEW_ON_MAP, R.id.interest_2);
     }
 }

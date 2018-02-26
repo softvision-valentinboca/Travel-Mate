@@ -2,7 +2,6 @@ package tie.hackathon.travelguide.Tests;
 
 import android.support.test.espresso.Espresso;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import tie.hackathon.travelguide.Constants.Integers;
@@ -11,9 +10,6 @@ import tie.hackathon.travelguide.Constants.Timeouts;
 import tie.hackathon.travelguide.Screens.City;
 import tie.hackathon.travelguide.Screens.LoginPage;
 import tie.hackathon.travelguide.Screens.MainPage;
-import tie.hackathon.travelguide.Screens.MoreCityDetails;
-import tie.hackathon.travelguide.destinations.description.FinalCityInfo;
-import utils.Constants;
 
 /**
  * Created by valentin.boca on 2/21/2018.
@@ -32,29 +28,19 @@ public class DemoTest extends EspressoTestBase {
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfLogInIsSuccessful() throws Exception {
-        LoginPage.waitForTheLoginPageToBeDisplayed();
-        LoginPage.tapLogInString();
-        LoginPage.logIn(Strings.PHONE_NO, Strings.PASSWORD);
-        LoginPage.tapLogInButton();
-        MainPage.waitForTheMainScreenToBeDisplayed();
+       MainPage.loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
     }
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfACityFromMainPageIsDisplayed() throws Exception {
-        MainPage.login();
-        MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        MainPage.clickACityFromMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        City.waitForCityInfoToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
+        MainPage.loginWaitForAndClickCity();
         Espresso.pressBack();
         MainPage.signOut();
     }
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfFunFactsPageIsDisplayed() throws Exception {
-        MainPage.login();
-        MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        MainPage.clickACityFromMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        City.waitForCityInfoToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
+        MainPage.loginWaitForAndClickCity();
         City.clickFunFacts();
         City.waitForFunFactsPageToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
         City.navigateToMainMenu();
@@ -63,26 +49,17 @@ public class DemoTest extends EspressoTestBase {
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfMoreDetailsCityIsDisplayed() throws Exception {
-        MainPage.login();
-        MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        MainPage.swipeLeftACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
-        MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
+        MainPage.swipeCity();
         MainPage.waitForTheMainScreenToBeDisplayed();
         MainPage.signOut();
     }
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfGoogleMapsIsDisplayed() throws Exception {
-        MainPage.login();
+        MainPage.loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
         MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        MainPage.swipeLeftACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
-        MoreCityDetails.tapViewOnMapString();
-        MoreCityDetails.waitForGoogleMapsPageToBeDisplayed();
-        Helpers.navigateBackToApp();
-        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
-        MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.swipeNavigateAndWaitGoogleMaps();
         MainPage.waitForTheMainScreenToBeDisplayed();
         MainPage.signOut();
     }
