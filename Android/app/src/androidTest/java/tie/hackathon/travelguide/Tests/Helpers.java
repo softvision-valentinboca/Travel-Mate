@@ -198,7 +198,11 @@ public class Helpers extends EspressoTestBase {
         onView(isRoot()).perform(waitId(rid, TimeUnit.SECONDS.toMillis(time)));
     }
 
-    public static void clickASpecificObject(String text, int rid) throws Exception {
+    public static void clickASpecificObjectWithTextAndId(String text, int rid) throws Exception {
         onView(allOf(withText(text), withId(rid))).perform(click());
+    }
+
+    public static void clickASpecificObjectWithId(int rid) throws Exception {
+        onView(withId(rid)).perform(click());
     }
 }

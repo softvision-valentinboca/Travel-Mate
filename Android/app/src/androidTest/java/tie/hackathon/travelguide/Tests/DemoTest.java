@@ -1,5 +1,7 @@
 package tie.hackathon.travelguide.Tests;
 
+import android.support.test.espresso.Espresso;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,7 +27,6 @@ public class DemoTest extends EspressoTestBase {
         LoginPage.tapSignUpButton();
         MainPage.waitForTheMainScreenToBeDisplayed();
         MainPage.signOut();
-        LoginPage.waitForTheLoginPageToBeDisplayed();
     }
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
@@ -39,9 +40,23 @@ public class DemoTest extends EspressoTestBase {
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfACityFromMainPageIsDisplayed() throws Exception {
-        MainPage.waitForTheMainScreenToBeDisplayed();
+        MainPage.login();
         MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
         MainPage.clickACityFromMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
         City.waitForCityInfoToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
+        Espresso.pressBack();
+        MainPage.signOut();
+    }
+
+    @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
+    public void testIfFunFactsPageIsDisplayed() throws Exception {
+        MainPage.login();
+        MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.clickACityFromMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        City.waitForCityInfoToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
+        City.clickFunFacts();
+        City.waitForFunFactsPageToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
+        City.navigateToMainMenu();
+        MainPage.signOut();
     }
 }
