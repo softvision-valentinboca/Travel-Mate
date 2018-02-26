@@ -11,4 +11,5 @@ public class Integers {
     public static final Integer CITY_ON_LEFT_MAIN_PAGE = R.id.name1;
     public static final Integer CITY_NAME = R.id.head;
     public static final Integer SHARE = R.id.fab;
+    public static final Integer MORE_DETAILS_TITLE = R.id.nickname;
 }

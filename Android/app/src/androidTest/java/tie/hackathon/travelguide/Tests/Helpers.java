@@ -1,6 +1,7 @@
 package tie.hackathon.travelguide.Tests;
 
 import android.os.SystemClock;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.AppNotIdleException;
 import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.NoMatchingViewException;
@@ -10,6 +11,7 @@ import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.util.HumanReadables;
 import android.support.test.espresso.util.TreeIterables;
+import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;
 import android.view.View;
@@ -25,10 +27,13 @@ import org.hamcrest.TypeSafeMatcher;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import tie.hackathon.travelguide.Constants.Strings;
 import tie.hackathon.travelguide.Constants.Time;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -75,6 +80,10 @@ public class Helpers extends EspressoTestBase {
     public static void pressBack() throws Exception {
 
         device.pressBack();
+    }
+
+    public static UiObject getUiObjectByText(String text) throws Exception {
+        return device.findObject(new UiSelector().text(text));
     }
 
     public static UiObject getUiObjectByResourceId(String nameSpace, String resourceId) throws Exception {
@@ -154,6 +163,7 @@ public class Helpers extends EspressoTestBase {
         onView(withId(rid)).perform(click());
     }
 
+    //wait for a determined period of time
     public static ViewAction waitId(final int viewId, final long millis) {
         return new ViewAction() {
             @Override
@@ -202,7 +212,50 @@ public class Helpers extends EspressoTestBase {
         onView(allOf(withText(text), withId(rid))).perform(click());
     }
 
+    public static void swipeLeftASpecificObjectWithTextAndId(String text, int rid) throws Exception {
+        onView(allOf(withText(text), withId(rid))).perform(swipeLeft());
+    }
+
+    public static void swipeRightASpecificObjectWithTextAndId(String text, int rid) throws Exception {
+        onView(allOf(withText(text), withId(rid))).perform(swipeRight());
+    }
+
     public static void clickASpecificObjectWithId(int rid) throws Exception {
         onView(withId(rid)).perform(click());
+    }
+
+    //Matches the first object found when multiple objects with the same id/text/index are available
+    public static Matcher<View> first(final Matcher<View> expected) {
+
+        return new TypeSafeMatcher<View>() {
+            private boolean first = false;
+
+            @Override
+            protected boolean matchesSafely(View item) {
+
+                if(expected.matches(item) && !first) {
+                    return first = true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Matcher.first( " + expected.toString() + " )");
+            }
+        };
+    }
+
+    public static void clickOnTheFirstObjectInTheListWhenAmbiguous(String text, int rid) throws Exception {
+        //onView( withId( R.id.interest_2 ) ).perform( RecyclerViewActions.scrollTo( first(withText("View on Map"))));
+        onView(Helpers.first(allOf(withText(text), withId(rid)))).perform(click());
+    }
+
+    public static void navigateBackToApp() throws Exception {
+        UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        mDevice.pressRecentApps();
+        UiObject clickTravelMate = Helpers.getUiObjectByText(Strings.APP_NAME);
+        clickTravelMate.click();
     }
 }

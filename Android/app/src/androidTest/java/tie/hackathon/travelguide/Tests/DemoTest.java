@@ -11,6 +11,7 @@ import tie.hackathon.travelguide.Constants.Timeouts;
 import tie.hackathon.travelguide.Screens.City;
 import tie.hackathon.travelguide.Screens.LoginPage;
 import tie.hackathon.travelguide.Screens.MainPage;
+import tie.hackathon.travelguide.Screens.MoreCityDetails;
 import tie.hackathon.travelguide.destinations.description.FinalCityInfo;
 import utils.Constants;
 
@@ -57,6 +58,32 @@ public class DemoTest extends EspressoTestBase {
         City.clickFunFacts();
         City.waitForFunFactsPageToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
         City.navigateToMainMenu();
+        MainPage.signOut();
+    }
+
+    @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
+    public void testIfMoreDetailsCityIsDisplayed() throws Exception {
+        MainPage.login();
+        MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.swipeLeftACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.waitForTheMainScreenToBeDisplayed();
+        MainPage.signOut();
+    }
+
+    @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
+    public void testIfGoogleMapsIsDisplayed() throws Exception {
+        MainPage.login();
+        MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.swipeLeftACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MoreCityDetails.tapViewOnMapString();
+        MoreCityDetails.waitForGoogleMapsPageToBeDisplayed();
+        Helpers.navigateBackToApp();
+        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.waitForTheMainScreenToBeDisplayed();
         MainPage.signOut();
     }
 }

@@ -41,8 +41,26 @@ public class MainPage {
         }
     }
 
+    public static boolean areMoreDetailsOfACityFromMainPageDisplayed(String text, int rid) throws Exception {
+        return Helpers.isObjectWithTextAndIdDisplyed(text, rid);
+    }
+
+    public static void waitForMoreDetailsForCityToBeDisplayed(String text, int rid) throws Exception {
+        if(!areMoreDetailsOfACityFromMainPageDisplayed(text, rid)) {
+            throw new Exception("The city details are not displayed");
+        }
+    }
+
     public static void clickACityFromMainPage(String text, int rid) throws Exception {
         Helpers.clickASpecificObjectWithTextAndId(text, rid);
+    }
+
+    public static void swipeLeftACityFromTheRightSideOfMainPage(String text, int rid) throws Exception {
+        Helpers.swipeLeftASpecificObjectWithTextAndId(text, rid);
+    }
+
+    public static void swipeRightACityFromTheRightSideOfMainPage(String text, int rid) throws Exception {
+        Helpers.swipeRightASpecificObjectWithTextAndId(text, rid);
     }
 
     public static void login() throws Exception {
