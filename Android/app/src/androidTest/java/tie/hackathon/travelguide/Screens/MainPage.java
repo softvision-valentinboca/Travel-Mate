@@ -73,7 +73,7 @@ public class MainPage {
     }
 
     public static void loginWaitForAndClickCity() throws Exception {
-        MainPage.loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
+        MainPage.loginWithMuUseEndToEnd();
         MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
         MainPage.clickACityFromMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
         City.waitForCityInfoToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_NAME);
@@ -86,13 +86,7 @@ public class MainPage {
         MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
     }
 
-    public static void swipeNavigateAndWaitGoogleMaps() throws Exception{
-        MainPage.swipeLeftACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
-        MoreCityDetails.tapViewOnMapString();
-        MoreCityDetails.waitForGoogleMapsPageToBeDisplayed();
-        Helpers.navigateBackToApp();
-        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
-        MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+    public static void loginWithMuUseEndToEnd() throws Exception {
+        loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
     }
 }

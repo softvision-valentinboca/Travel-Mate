@@ -1,7 +1,6 @@
 package tie.hackathon.travelguide.Tests;
 
 import android.os.SystemClock;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.AppNotIdleException;
 import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.NoMatchingViewException;
@@ -9,19 +8,21 @@ import android.support.test.espresso.PerformException;
 import android.support.test.espresso.Root;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.util.HumanReadables;
 import android.support.test.espresso.util.TreeIterables;
-import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 
 import java.util.concurrent.TimeUnit;
@@ -29,22 +30,24 @@ import java.util.concurrent.TimeoutException;
 
 import tie.hackathon.travelguide.Constants.Strings;
 import tie.hackathon.travelguide.Constants.Time;
+import tie.hackathon.travelguide.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.AnyOf.anyOf;
 
 /**
  * Created by valentin.boca on 2/22/2018.
@@ -93,6 +96,18 @@ public class Helpers extends EspressoTestBase {
         return Helpers.checkIfUIObjectIsVisible(allOf(withText(text), withId(rid), isCompletelyDisplayed()), 3);
     }
 
+    public static boolean isObjectWithContentDescAndIdDisplyed(String text, int rid) throws Exception {
+        return Helpers.checkIfUIObjectIsVisible(allOf(withContentDescription(text), withId(rid), isCompletelyDisplayed()), 3);
+    }
+
+    public static boolean isObjectWithContentDescAndTextDisplyed(String text, String text2) throws Exception {
+        return Helpers.checkIfUIObjectIsVisible(allOf(withContentDescription(text), withText(text2), isCompletelyDisplayed()), 3);
+    }
+
+    public static boolean isObjectWithTextOrIdDisplyed(String text, int rid) throws Exception {
+        return Helpers.checkIfUIObjectIsVisible(anyOf(withText(text), withId(rid), isCompletelyDisplayed()), 3);
+    }
+
     public static boolean isObjectWithIdDisplayed(int rid) throws Exception {
         return Helpers.checkIfUIObjectIsVisible(allOf(withId(rid), isCompletelyDisplayed()), 3);
     }
@@ -121,7 +136,7 @@ public class Helpers extends EspressoTestBase {
         int i = 0;
         int MAX_SWIPES = 2;
         while(!found && i < MAX_SWIPES) {
-            onView(withId(rid2)).perform(swipeUp());
+            onView(withId(rid2)).check(matches(isDisplayed()));
             SystemClock.sleep(500);
             try {
                 onView(matcher).check(matches(isDisplayed())).perform(actionOnItemAtPosition(position, click()));
@@ -144,6 +159,10 @@ public class Helpers extends EspressoTestBase {
 
     public static void clickOnObjectWithIdAtPosition(int rid, int position) throws Exception {
         onView(objectPositionOnAListView(withId(rid), position)).perform(click());
+    }
+
+    public static boolean isObjectWithIdAndPositionDisplyed(int rid, int rid2, int position) throws Exception {
+        return Helpers.checkIfUIObjectIsVisible(allOf(objectPositionOnAListView(withId(rid), position), withId(rid2), isCompletelyDisplayed()), 2);
     }
 
     public static void typeTextOnFieldWithId(int rid, String text) throws Exception {
@@ -199,6 +218,10 @@ public class Helpers extends EspressoTestBase {
         onView(allOf(withText(text), withId(rid))).perform(click());
     }
 
+    public static void clickASpecificObjectWithTextAndContentDescAndText(String text, String text2, int rid) throws Exception {
+        onView(allOf(withText(text), withContentDescription(text2), withId(rid))).perform(click());
+    }
+
     public static void swipeLeftASpecificObjectWithTextAndId(String text, int rid) throws Exception {
         onView(allOf(withText(text), withId(rid))).perform(swipeLeft());
     }
@@ -240,9 +263,14 @@ public class Helpers extends EspressoTestBase {
     }
 
     public static void navigateBackToApp() throws Exception {
-        UiDevice Device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        Device.pressRecentApps();
+        device.pressRecentApps();
         UiObject clickTravelMate = Helpers.getUiObjectByText(Strings.APP_NAME);
         clickTravelMate.click();
+    }
+
+    public static void setDate(int year, int monthOfYear, int dayOfMonth) {
+        onView(withId(R.id.animator)).perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(year, monthOfYear, dayOfMonth));
+        onView(withId(R.id.done)).perform(click());
     }
 }

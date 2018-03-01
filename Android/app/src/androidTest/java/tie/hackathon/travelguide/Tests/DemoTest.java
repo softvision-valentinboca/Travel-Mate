@@ -10,6 +10,9 @@ import tie.hackathon.travelguide.Constants.Timeouts;
 import tie.hackathon.travelguide.Screens.City;
 import tie.hackathon.travelguide.Screens.LoginPage;
 import tie.hackathon.travelguide.Screens.MainPage;
+import tie.hackathon.travelguide.Screens.MoreCityDetails;
+import tie.hackathon.travelguide.Screens.NavDrawer;
+import tie.hackathon.travelguide.Screens.Travel;
 
 /**
  * Created by valentin.boca on 2/21/2018.
@@ -19,16 +22,14 @@ public class DemoTest extends EspressoTestBase {
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfSignUpIsSuccessful() throws Exception {
-        LoginPage.waitForTheLoginPageToBeDisplayed();
-        LoginPage.signUp(Strings.USER, Strings.PHONE_NO, Strings.PASSWORD);
-        LoginPage.tapSignUpButton();
+        LoginPage.signupWithMuUseFlow();
         MainPage.waitForTheMainScreenToBeDisplayed();
         MainPage.signOut();
     }
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfLogInIsSuccessful() throws Exception {
-       MainPage.loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
+        MainPage.loginWithMuUseEndToEnd();
     }
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
@@ -49,7 +50,7 @@ public class DemoTest extends EspressoTestBase {
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfMoreDetailsCityIsDisplayed() throws Exception {
-        MainPage.loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
+        MainPage.loginWithMuUseEndToEnd();
         MainPage.swipeCity();
         MainPage.waitForTheMainScreenToBeDisplayed();
         MainPage.signOut();
@@ -57,10 +58,26 @@ public class DemoTest extends EspressoTestBase {
 
     @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM)
     public void testIfGoogleMapsIsDisplayed() throws Exception {
-        MainPage.loginEndToEnd(Strings.PHONE_NO, Strings.PASSWORD);
+        MainPage.loginWithMuUseEndToEnd();
         MainPage.waitForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
-        MainPage.swipeNavigateAndWaitGoogleMaps();
+        MainPage.swipeLeftACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.CITY_ON_RIGHT_MAIN_PAGE);
+        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MoreCityDetails.tapViewOnMapString();
+        MoreCityDetails.waitForGoogleMapsPageToBeDisplayed();
+        Helpers.navigateBackToApp();
+        MainPage.waitForMoreDetailsForCityToBeDisplayed(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
+        MainPage.swipeRightACityFromTheRightSideOfMainPage(Strings.CITY_MAIN_PAGE, Integers.MORE_DETAILS_TITLE);
         MainPage.waitForTheMainScreenToBeDisplayed();
         MainPage.signOut();
+    }
+
+    @Test(timeout = Timeouts.TEST_TIMEOUT_MEDIUM) // incomplete test... work in progress
+    public void testIfANewTripIsCreated() throws Exception {
+        MainPage.loginWithMuUseEndToEnd();
+        MainPage.waitForTheMainScreenToBeDisplayed();
+        NavDrawer.NavigateToTravel();
+        Travel.clickMyTrips();
+        Travel.clickAddNewTrip();
+        Travel.newTripFlow("Heey", "Dehli", 2018, 4, 2, 2018, 5, 2);
     }
 }

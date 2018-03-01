@@ -18,6 +18,8 @@
     <string name="title_activity_hotels">Hotels</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_fun_facts">FunFacts</string>
+    <string name="my_tripsVali">FunnyFacts</string>
+
 
     <string name="empty_description">No description available.</string>
     <string name="text_title">Title</string>

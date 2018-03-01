@@ -1,5 +1,6 @@
 package tie.hackathon.travelguide.Screens;
 
+import tie.hackathon.travelguide.Constants.Strings;
 import tie.hackathon.travelguide.R;
 import tie.hackathon.travelguide.Tests.Helpers;
 
@@ -59,5 +60,15 @@ public class LoginPage {
     public static void logInWithNumberAndPassword(String number, String password) throws Exception{
         LoginPage.insertPhoneNumberLogIn(number);
         LoginPage.insertPasswordLogIn(password);
+    }
+
+    public static void signupFlow(String user, String phone, String password) throws Exception{
+        LoginPage.waitForTheLoginPageToBeDisplayed();
+        LoginPage.signUp(Strings.USER, Strings.PHONE_NO, Strings.PASSWORD);
+        LoginPage.tapSignUpButton();
+    }
+
+    public static void signupWithMuUseFlow() throws Exception {
+        signupFlow(Strings.USER, Strings.PHONE_NO, Strings.PASSWORD);
     }
 }
