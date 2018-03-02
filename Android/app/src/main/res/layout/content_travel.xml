@@ -16,6 +16,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/vali"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -37,17 +38,6 @@
                     android:orientation="horizontal">
 
 
-                    <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="4"
-                        android:alpha="0.6"
-                        android:background="@drawable/city"
-                        android:contentDescription="@string/empty_description"
-                        android:padding="10dp"
-                        android:scaleType="centerCrop" />
-
-
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -58,9 +48,20 @@
                         android:gravity="center"
                         android:padding="2dp"
                         android:text="@string/my_trips"
+                        android:contentDescription="@string/my_tripsVali"
                         android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="4"
+                        android:alpha="0.6"
+                        android:background="@drawable/city"
+                        android:contentDescription="@string/empty_description"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop" />
 
 
                 </FrameLayout>
@@ -95,11 +96,13 @@
 
 
                     <TextView
+                        android:id="@+id/masina"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1.6"
+                        android:contentDescription="MASINA"
                         android:fontFamily="sans-serif-condensed"
                         android:gravity="center"
                         android:padding="2dp"
